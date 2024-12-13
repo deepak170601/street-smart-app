@@ -1,0 +1,50 @@
+<nav class="bg-black px-6 lg:px-16 py-4 flex items-center justify-between shadow-md relative">
+  <!-- Logo (Left Most) -->
+  <div class="text-2xl font-bold text-white flex items-center cursor-pointer" (click)="navigateToDashboard()">
+    <i class="fas fa-map-marked-alt mr-2"></i>
+    Street Smart
+  </div>
+
+  <!-- Desktop Navigation Links (Right-Aligned) -->
+  <ul class="hidden md:flex space-x-6 ml-auto">
+    <li *ngFor="let item of menuItems">
+      <a
+        *ngIf="item.name !== 'logout' && item.name !== 'Login'"
+        [routerLink]="'/' + item.name"
+        routerLinkActive="text-gray-400"
+        class="text-white hover:text-gray-400 flex items-center"
+      >
+        <i *ngIf="item.name === 'favorites'" class="fas fa-heart mr-1"></i>
+        <i *ngIf="item.name === 'profile'" class="fas fa-user mr-1"></i>
+        <i *ngIf="item.name === 'products'" class="fas fa-box mr-1"></i>
+        <i *ngIf="item.name === 'reviews'" class="fas fa-thumbs-up mr-1"></i>
+        <i *ngIf="item.name === 'requests'" class="fas fa-star mr-1"></i>
+        {{ item.name | titlecase }}
+        <span
+          *ngIf="item.count"
+          class="ml-2 bg-white text-black text-xs font-semibold px-2 py-1 rounded-full"
+        >
+          {{ item.count }}
+        </span>
+      </a>
+
+      <button
+        *ngIf="item.name === 'logout'"
+        (click)="logout()"
+        class="text-white hover:text-gray-400 flex items-center"
+      >
+        <i class="fas fa-sign-out-alt mr-1"></i>
+        Logout
+      </button>
+
+      <a
+        *ngIf="item.name === 'Login'"
+        routerLink="/login"
+        class="text-white hover:text-gray-400 flex items-center"
+      >
+        <i class="fas fa-sign-in-alt mr-1"></i>
+        Login
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,68 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ApiGateway
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: '*'
+            allowedHeaders: '*'
+      routes:
+        - id: UserService
+          uri: lb://UserService
+          predicates:
+            - Path=/api/users/**
+        - id: UserService
+          uri: lb://UserService
+          predicates:
+            - Path=/api/sms/**
+          
+
+        - id: ShopService
+          uri: lb://ShopService
+          predicates:
+            - Path=/api/shops/**
+          filters:
+            - name : AuthenticationFilter
+        - id: ShopService
+          uri: lb://ShopService
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - name: AuthenticationFilter
+        - id: ShopService
+          uri: lb://ShopService
+          predicates:
+            - Path=/api/images/**
+          filters:
+            - name: AuthenticationFilter
+        - id: ShopApprovalService
+          uri: lb://ShopApprovalService
+          predicates:
+            - Path=/api/approvals/**
+          filters:
+            - name : AuthenticationFilter
+        - id: RatingService
+          uri: lb://RatingService
+          predicates:
+              - Path=/api/ratings/**
+          filters:
+            - name : AuthenticationFilter
+        - id: FavoriteService
+          uri: lb://FavoriteService
+          predicates:
+              - Path=/api/favorites/**
+          filters:
+            - name : AuthenticationFilter
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
